@@ -4,4 +4,5 @@ mysite/mysite/settings_secret.py
 mysite/db.sqlite3
 mysite/visualData/data/
 mysite/visualData/zipData/
+migrations/
 *.pyc
