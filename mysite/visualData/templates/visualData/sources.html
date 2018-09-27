@@ -1,9 +1,9 @@
-{% extends "personal/header.html" %}
+{% extends "visualData/header.html" %}
 
 {% block content %}
 
   {% for source in object_list %}
-  <h5>{{ source.date|date:"Y-m-d" }} <a href="/blog/{{source.id}}">{{ source.title }}</a> </h5>
+  <h5>{{ source.date|date:"Y-m-d" }} <a href="/{{source.id}}">{{ source.title }}</a> </h5>
   {% endfor %}
 
 {% endblock %}
