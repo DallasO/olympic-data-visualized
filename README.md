@@ -3,6 +3,7 @@
 This is a project I am working on to teach myself python and to have fun turning data of the Olympic Games into easy to understand graphs.
 
 ## Current Task List
+* Cleanup left over apps/files from tutorial I used to start project
 * Create/Update importData.py to import data from a .csv file into the database
 * Use importData.py to import initial collected data
 
