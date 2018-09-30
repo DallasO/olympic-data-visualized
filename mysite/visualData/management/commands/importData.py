@@ -1,3 +1,8 @@
+# --------------------------------------------------------------------------- #
+# This file can be run as a script using the command  #
+# ::  $ python3 /path/to/app/manage.py importData  :: #
+# --------------------------------------------------------------------------- #
+
 from django.core.management.base import BaseCommand, CommandError
 # from django.db import DoesNotExist
 import csv, sys, os
