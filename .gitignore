@@ -1,5 +1,3 @@
-Pipfile
-Pipfile.lock
 .~lock*
 mysite/mysite/settings_secret.py
 mysite/db.sqlite3
