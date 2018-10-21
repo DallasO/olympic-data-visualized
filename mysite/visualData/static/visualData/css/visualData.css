@@ -35,14 +35,14 @@ h3,
 }
 
 .grid-container {
-  max-width: 1300px;
-  margin: 0 auto;
+  max-width: 100%;
   display: grid;
   grid-template:
-    [row1-start] "header header header" auto [row1-end]
-    [row2-start] "sidebar main main" 1fr [row1-end]
-    [row3-start] "footer footer footer" 100px [row1-end]
-    / 150px 1fr 200px;
+    [row1-start] "header" auto [row1-end]
+    [row2-start] "sidebar" auto [row1-end]
+    [row2-start] "main" 1fr [row1-end]
+    [row3-start] "footer" 100px [row1-end]
+    / 1fr;
   grid-gap: 15px;
 }
 
@@ -50,16 +50,40 @@ header {
   grid-area: header;
   display: grid;
   grid-template:
-    [row1-start] "logo header ." 99px [row1-end]
-    / 200px 1fr 200px;
+    [row1-start] ". logo header ." 99px [row1-end]
+    / 15px 1fr 1fr 15px;
   grid-gap: 15px;
   margin: 10px 0;
   border-bottom: 1px solid #b2b2b2;
 }
 
+header .logo {
+  grid-area: logo;
+}
+
+header .title {
+  grid-area: header;
+}
+
 nav {
   grid-area: sidebar;
-  border-right: 1px solid #b2b2b2;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 1fr;
+  grid-gap: 2px;
+}
+
+nav span {
+  grid-row: 1;
+}
+
+nav a {
+  display: block;
+  text-align: center;
+  border: 1px solid #358282;
+  background-color: #52cfcf;
+  font-weight: bold;
+  color: #fff;
 }
 
 main {
@@ -72,7 +96,7 @@ footer {
 
 .tile-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   grid-auto-rows: 100px;
   grid-gap: 15px;
   grid-auto-flow: dense;
@@ -97,4 +121,58 @@ footer {
   border-radius: 20px;
   background-color: #52cfcf;
   padding: 15px;
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .grid-container {
+    max-width: 750px;
+    margin: 0 auto;
+  }
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .grid-container {
+    max-width: 970px;
+    grid-template:
+      [row1-start] "header header header" auto [row1-end]
+      [row2-start] "sidebar main main" 1fr [row1-end]
+      [row3-start] "footer footer footer" 100px [row1-end]
+      / 150px 1fr 200px;
+  }
+
+  header {
+    grid-template:
+      [row1-start] "logo header ." 99px [row1-end]
+      / 200px 1fr 200px;
+  }
+
+  nav {
+    grid-gap: 5px;
+    border-right: 1px solid #b2b2b2;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    align-content: start;
+  }
+
+  nav span {
+    grid-row: auto;
+    padding: 0 5px;
+  }
+
+  .tile-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .grid-container {
+    max-width: 1170px;
+  }
+
+  .tile-container {
+    /* grid-template-columns: repeat(4, 1fr); */
+  }
 }
