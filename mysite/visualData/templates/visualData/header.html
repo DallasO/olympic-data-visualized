@@ -2,71 +2,63 @@
 <html lang="en">
 
 <head>
-  <title>Data Visualist</title>
+  <title>The Olympic Games</title>
   <meta charset="utf-8" /> {% load staticfiles %}
   <link rel="stylesheet" href="{% static 'visualData/css/bootstrap.min.css' %}" type="text/css" />
+  <link rel="stylesheet" href="{% static 'visualData/css/visualData.css' %}" type="text/css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="{% static 'visualData/img/favicon.png' %}">
-
-  <style type="text/css">
-    html,
-    body {
-      height: 100%
-    }
-  </style>
 </head>
 
-<body class="body" style="background-color:#f2f2f2">
-  <div class="container-fluid" style="min-height:95%; ">
-    <div class="row">
-      <div class="col-sm-2">
-        <br>
-        <center>
-          <a href='/'>
-            <img src="{% static 'visualData/img/visualData-logo.png' %}" class="responsive-img logo" style='max-height:100px;' alt="Visualizing the Olympics">
-          </a>
-        </center>
-      </div>
-      <div class="col-sm-10">
-        <br>
-        <center>
-          <h3>Look at this Data</h3>
-        </center>
-      </div>
-    </div>
-    <hr>
+<body>
+  <!-- BEGIN :: Page Container -->
+  <div class="grid-container">
 
-    <div class="row">
-      <div class="col-sm-2">
-        <br>
-
-        <br>
-        <!-- Great, til you resize. -->
-        <!--<div class="well bs-sidebar affix" id="sidebar" style="background-color:#f6f6f6">-->
-        <div class="well bs-sidebar" id="sidebar" style="background-color:#f6f6f6">
-          <ul class="nav1 nav-pills nav-stacked">
-            <li><a href='/'>Look at this Data</a></li>
-            <li><a href='/contact/'>Data Contact</a></li>
-          </ul>
-        </div>
-        <!--well bs-sidebar affix-->
+    <!-- BEGIN :: HEADER -->
+    <header>
+      <div class="logo">
+        <a href='/'>
+          <img src="{% static 'visualData/img/visualData-logo.png' %}" class="responsive-img logo" style='max-height:100px;' alt="Visualizing the Olympics">
+        </a>
       </div>
-      <!--col-sm-2-->
-      <div class="col-sm-10">
-
-        <div class='container-fluid'>
-          <br><br> {% block content %} {% endblock %}
-        </div>
+      <div class="title">
+        <h1>The Olympic Games</h1>
       </div>
-    </div>
+    </header>
+    <!-- END :: HEADER -->
+
+    <!-- BEGIN :: NAV -->
+    <nav>
+      <ul>
+        <li><a href='/'>See More</a></li>
+        <li><a href='/contact/'>Contact Me</a></li>
+        <li><a href='/'>More Navs</a></li>
+        <li><a href='/'>More Navs</a></li>
+        <li><a href='/'>More Navs</a></li>
+        <li><a href='/'>More Navs</a></li>
+        <li><a href='/'>More Navs</a></li>
+        <li><a href='/'>More Navs</a></li>
+        <li><a href='/'>More Navs</a></li>
+      </ul>
+    </nav>
+    <!-- END :: NAV -->
+
+    <!-- BEGIN :: MAIN CONTENT -->
+    <main>
+      {% block content %} {% endblock %}
+    </main>
+    <!-- END :: MAIN CONTENT -->
+
+    <!-- BEGIN :: FOOTER -->
+    <footer>
+      <div>
+        <span>
+          &copy;2018 {# <!-- FIXME: Update to jinja for auto update --> #}
+        </span>
+      </div>
+    </footer>
+    <!-- END :: FOOTER -->
+
   </div>
-  <footer>
-    <div class="container-fluid" style='margin-left:15px'>
-      <p>
-        <a href="/contact/" target="blank">Contact</a> | <a href="#" target="blank">LinkedIn</a> | <a href="#" target="blank">Twitter</a> | <a href="#" target="blank">Google+</a>
-      </p>
-    </div>
-  </footer>
-
-
+  <!-- END :: Page Container -->
 </html>
