@@ -10,11 +10,6 @@ This is a project I am working on to teach myself python and to have fun turning
 * Start scaffold structure of website
 * Remove Bootstrap and begin to use CSS Grid
 
-### Dependencies
-* Python version 3.6
-* Django version 2.1.2
-* Bootstrap version 3.3.7
-
 ### Data provided by
 [120 years of Olympic history: athletes and results](https://www.kaggle.com/heesoo37/120-years-of-olympic-history-athletes-and-results) - Uploaded by Randi H Griffin  
 Hosted on [kaggle.com](https://www.kaggle.com)
