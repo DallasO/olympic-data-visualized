@@ -1,6 +1,6 @@
 .~lock*
 mysite/mysite/settings_secret.py
-mysite/db.sqlite3
+mysite/db.sqlite3*
 mysite/visualData/zipData/
 migrations/
 *.pyc
