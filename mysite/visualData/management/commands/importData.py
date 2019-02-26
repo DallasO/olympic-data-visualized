@@ -3,15 +3,13 @@
 # ::  $ python3 /path/to/app/manage.py importData  :: #
 # --------------------------------------------------------------------------- #
 
-from django.core.management.base import BaseCommand, CommandError
 import csv, sys, os
-
+from django.core.management.base import BaseCommand, CommandError
+from django.db import IntegrityError
 from django.conf import settings
-
-# BUG: Do I need this?
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mysite.settings")
-
 from visualData.models import *
+
+
 
 class Command(BaseCommand):
     """Import data"""
@@ -51,44 +49,102 @@ class Command(BaseCommand):
                     for row in regionReader:
 
                         try:
-                            currentRegion = Regions.objects.filter(country_code= row[0])
-                        except Regions.DoesNotExist as e:
-                            regionImport = Regions.objects.create(country_code= row[0],region= row[1],notes= row[2])
-                        else:
+                            currentRegion, created = Regions.objects.update_or_create(country_code= row[0],region= row[1],notes= row[2])
+                            # currentRegion.save()
+                        except IntegrityError:
+                            print("Region:", currentRegion)
 
-                            if (
-                                currentRegion.values()[0]['region'] != row[1] or
-                                currentRegion.values()[0]['notes'] != row[2]
-                                ):
-                                currentRegion.update(region= row[1], notes= row[2])
-
-            except FileNotFoundError as e:
+            except FileNotFoundError:
                 print(f"File not found: {noc_regions}")
 
 
 
         # Process athlete_events.csv
-        # if importAll or options['events']:
-        #     athlete_events = os.path.join(settings.BASE_DIR,'visualData/data/athlete_events.csv')
-        #     try:
-        #
-        #         with open(athlete_events) as csvfile:
-        #             eventReader = csv.reader(csvfile, delimiter=delim, quotechar=quote)
-        #             titlerow = next(eventReader)
-        #
-        #             for row in eventReader:
-        #
-        #                 try:
-        #                     currentEvent = Regions.objects.filter(country_code= row[0])
-        #                 except Regions.DoesNotExist as e:
-        #                     regionImport = Regions.objects.create(country_code= row[0],region= row[1],notes= row[2])
-        #                 else:
-        #
-        #                     if (
-        #                         currentEvent.values()[0]['region'] != row[1] or
-        #                         currentEvent.values()[0]['notes'] != row[2]
-        #                         ):
-        #                         currentEvent.update(region= row[1], notes= row[2])
-        #
-        #     except FileNotFoundError as e:
-        #         print(f"File not found: {athlete_events}")
+        if importAll or options['events']:
+            athlete_events = os.path.join(settings.BASE_DIR,'visualData/data/athlete_events.csv')
+            try:
+                athleteTest = None
+
+                with open(athlete_events) as csvfile:
+                    eventReader = csv.reader(csvfile, delimiter=delim, quotechar=quote)
+                    titlerow = next(eventReader)
+
+                    for row in eventReader:
+
+                        row = dict(zip(titlerow,row))
+
+                        # Clean up NA values
+                        if row['Age'] == 'NA':
+                            row['Age'] = 0
+
+                        if row['Height'] == 'NA':
+                            row['Height'] = 0
+
+                        if row['Weight'] == 'NA':
+                            row['Weight'] = 0
+
+                        if row['Medal'] == 'NA':
+                            row['Medal'] = None
+                        # Clean up NA values
+
+                        goodData = True
+
+                        # Athletes
+                        athleteID     = row['ID']
+                        athleteName   = row['Name']
+                        athleteGender = row['Sex']
+
+                        try:
+                            athlete, created = Athletes.objects.get_or_create(id= athleteID, name= athleteName, gender= athleteGender)
+                            # if not created:
+                            #     athlete.id = athleteID
+                            #     athlete.save()
+                        except IntegrityError:
+                            print("Name:", athleteName)
+                            goodData = False
+
+                        # Games
+                        gamesYear   = row['Year']
+                        gamesSeason = row['Season']
+                        gamesCity   = row['City']
+
+                        try:
+                            games, created = Games.objects.get_or_create(year= gamesYear, season= gamesSeason, city= gamesCity)
+                            # games.save()
+                        except IntegrityError:
+                            print("year", gamesYear)
+                            print("season", gamesSeason)
+                            goodData = False
+
+                        # Sports
+                        sportSport = row['Sport']
+                        sportEvent = row['Event']
+
+                        try:
+                            sport, created = Sports.objects.get_or_create(sport= sportSport, event= sportEvent)
+                            # sport.save()
+                        except IntegrityError:
+                            print("sport", sportSport)
+                            print("event", sportEvent)
+                            goodData = False
+
+                        # Athlete_Event
+                        aeAge    = row['Age']
+                        aeHeight = row['Height']
+                        aeWeight = row['Weight']
+                        aeMedal  = row['Medal']
+
+                        try:
+                            region = Regions.objects.get(country_code=row['NOC'])
+                        except Regions.DoesNotExist:
+                            print("NOC", row['NOC'])
+                            print("Team", row['Team'])
+                            goodData = False
+
+                        if goodData:
+                            # Shoud this be get_or_create()?
+                            ae, created = Athlete_Event.objects.update_or_create(athlete= athlete, sport= sport, game= games, age= aeAge, height= aeHeight, weight= aeWeight, team= region, medal= aeMedal)
+                            # ae.save()
+
+            except FileNotFoundError:
+                print(f"File not found: {athlete_events}")
