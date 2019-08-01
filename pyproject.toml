@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "olympic-data-visualized"
+version = "0.1.0"
+description = ""
+authors = ["DallasO <8305525+DallasO@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+django = "^2.1"
+
+[tool.poetry.dev-dependencies]
+pylint = "^2.3"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
